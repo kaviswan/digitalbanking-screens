@@ -216,10 +216,12 @@ digitalbankingControllers
 										},
 										{
 											field : '',
-											cellTemplate : '<div class="ngCellText" ng-class="col.colIndex()"><a class="transaction-link-style" href="{{row.getProperty(col.field)}}">View Trasaction Details</a></div>'
+											cellTemplate : '<div class="ngCellText" ng-class="col.colIndex()"><a class="transaction-link-style"' + 
+												'href="#/accountsTransactionList">View Transaction Details</a></div>'
 										} ]
 							};
 							getAccountsSummary();
+							
 							function getAccountsSummary() {
 								AccountsService
 										.getAccountSummary()
@@ -311,6 +313,12 @@ digitalbankingControllers.controller('CardsSummaryController', [ '$scope',
 		function($scope) {
 
 		} ]);
+
+digitalbankingControllers.controller('AccountsTransactionListController', [ '$scope',
+	function($scope) {
+		console.log("In AccountsTransactionListController");
+	} ]);
+
 
 digitalbankingControllers.controller('InvestmentsSummaryController', [
 		'$scope', function($scope) {

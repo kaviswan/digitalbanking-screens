@@ -13,8 +13,10 @@
 	}).when('/home', {
 		templateUrl : 'includes/home.html',
 		controller : 'HomeController'
-	})
-	.when('/accountSummary',{
+	}).when('/accountsTransactionList', {
+		templateUrl : 'includes/accountsTransactionList.html',
+		controller : 'AccountsTransactionListController'
+	}).when('/accountSummary',{
 		templateUrl : 'includes/AccountsSummary.html',
 		controller : 'AccountsSummaryController'
 	});
