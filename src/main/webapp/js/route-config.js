@@ -19,6 +19,21 @@
 	}).when('/accountSummary',{
 		templateUrl : 'includes/AccountsSummary.html',
 		controller : 'AccountsSummaryController'
+	}).when('/paymentsAccountsSummary',{
+		templateUrl : 'includes/PaymentsAccountsSummary.html',
+		controller : 'PaymentsAccountsSummaryController'
+	}).when('/paymentsCardsSummary',{
+		templateUrl : 'includes/PaymentsCardsSummary.html',
+		controller : 'PaymentsCardsSummaryController'
+	}).when('/paymentsFinalSummary',{
+		templateUrl : 'includes/MakePaymentScreen.html',
+		controller : 'PaymentsFinalSummaryController'
+	}).when('/paymentsFinalSummaryOTP',{
+		templateUrl : 'includes/PaymentOTPScreen.html',
+		controller : 'PaymentsFinalSummaryOTPController'
+	}).when('/paymentsConfirmation',{
+		templateUrl : 'includes/PaymentsConfirmation.html',
+		controller : 'PaymentsConfirmation'
 	});
 
 	$routeProvider.otherwise({

@@ -198,10 +198,11 @@ digitalbankingControllers
 						'AccountsService',
 						function($scope, AccountsService) {
 
-							$scope.accountsSummary = {};
+							$scope.accountsSummary = {};								
 							$scope.accGridOptions = {
 								data : 'accountsSummary',
 								columnDefs : [
+								        
 										{
 											field : 'accountType',
 											displayName : 'Account Type'
@@ -218,7 +219,7 @@ digitalbankingControllers
 											field : '',
 											cellTemplate : '<div class="ngCellText" ng-class="col.colIndex()"><a class="transaction-link-style"' + 
 												'href="#/accountsTransactionList">View Transaction Details</a></div>'
-										} ]
+										} ],								
 							};
 							getAccountsSummary();
 							
@@ -243,8 +244,79 @@ digitalbankingControllers
 												"accountBalance" : "10,000"
 											} ];
 										});
-							}
+							}								
 						} ]);
+
+digitalbankingControllers
+.controller(
+		'PaymentsAccountsSummaryController',
+		[
+				'$scope',
+				'AccountsService',
+				'$localStorage',
+				'$location',
+				function($scope, AccountsService,$localStorage,$location) {
+
+					$scope.accountsSummary = {};	
+					$scope.mySelections = [];
+					$scope.paymentsAccGridOptions = {
+						data : 'accountsSummary',
+						columnDefs : [
+						        
+								{
+									field : 'accountNo',
+									displayName : 'Account Number'
+								},
+								{
+									field : 'accountBalance',
+									displayName : 'Balance'
+								},
+								{
+									field : 'accountStatus',
+									displayName : 'Account Status'
+								}],
+						enableRowSelection : true,
+						showSelectionCheckbox : true,
+						multiSelect: false,								
+						enableHighlighting : true,
+						selectedItems : $scope.mySelections
+						
+					};
+					getAccountsSummary();
+					$scope.startPayment = function () {					    
+					    $localStorage.SavingsAccountNo = $scope.mySelections[0].accountNo;
+					    $localStorage.SavingsAccountBalance = $scope.mySelections[0].accountBalance;
+					    $localStorage.customerId = $scope.mySelections[0].customerId;
+					    console.log('Savings Details Stored: '+$localStorage.SavingsAccountNo +", "+$localStorage.SavingsAccountBalance);
+					    $location.path('/paymentsCardsSummary');					   					    
+					  };
+					$scope.cancelPayment = function () {						    
+						    $location.path('/home');						  
+						  };
+					function getAccountsSummary() {
+						AccountsService
+								.getAccountSummary()
+								.success(
+										function(data, status, headers,
+												config) {
+											if (data != null) {
+												$scope.accountsSummary = data;
+
+											}
+										}).error(function() {
+									$scope.accountsSummary = [ {
+										"accountType" : "Saving",
+										"accountNo" : "XXXXXXX075",
+										"accountBalance" : "60,000"
+									}, {
+										"accountType" : "Current",
+										"accountNo" : "XXXXXXX095",
+										"accountBalance" : "10,000"
+									} ];
+								});
+					}					
+				} ]);
+
 
 digitalbankingControllers
 		.controller(
@@ -309,10 +381,158 @@ digitalbankingControllers
 							}
 						} ]);
 
-digitalbankingControllers.controller('CardsSummaryController', [ '$scope',
-		function($scope) {
+digitalbankingControllers.controller('CardsSummaryController', [ '$scope','$localStorage',
+		function($scope,$localStorage) {
 
 		} ]);
+
+digitalbankingControllers.controller('PaymentsCardsSummaryController', [
+'$scope',
+'CardService','$localStorage','$location',
+function($scope, CardService,$localStorage,$location) {
+
+	$scope.cardSummary = {};
+	$scope.mySelections = [];
+	$scope.paymentsCardGridOptions = {
+		data : 'cardSummary',
+		columnDefs : [ 
+		{
+			field : 'customerId',
+			displayName : 'Customer ID'
+		},
+		{
+			field : 'cardNo',
+			displayName : 'Card Number'
+		}, {
+			field : 'cardType',
+			displayName : 'Type'
+		}, {
+			field : 'creditLimit',
+			displayName : 'Balance'
+		},
+		{
+			field : 'cardStatus',
+			displayName : 'Card Status'
+		}],
+	   enableRowSelection : true,
+	   showSelectionCheckbox : true,
+	   multiSelect: false,								
+	   enableHighlighting : true,
+	   selectedItems : $scope.mySelections
+	};
+	getCardSummary();
+	$scope.startPayment = function () {	    
+	    $localStorage.PaymentCardNo = $scope.mySelections[0].cardNo;
+	    $localStorage.PaymentCardBalance =  $scope.mySelections[0].creditLimit;
+	    console.log('Card Details Stored: '+$localStorage.PaymentCardNo+", "+$localStorage.PaymentCardBalance);
+	    $location.path('/paymentsFinalSummary');					   					    
+	  };
+	$scope.cancelPayment = function () {						    
+		    $location.path('/home');						  
+		  };
+	function getCardSummary() {
+		CardService.getCardSummary().success(
+				function(data, status, headers, config) {
+					if (data != null) {
+						$scope.cardSummary = data;
+
+					}
+				}).error(function() {
+			$scope.cardSummary = [ {
+				"cardNumber" : "xxxx-123",
+				"cardType" : "Debit",
+				"balance" : "27000"
+			}, {
+				"cardNumber" : "xxxx-234",
+				"cardType" : "Credit",
+				"balance" : "28000"
+			}];
+		});
+	}
+} ]);
+
+
+digitalbankingControllers.controller('PaymentsFinalSummaryController', [
+'$scope',
+'CardService','$localStorage','$location',
+function($scope, CardService,$localStorage,$location) {	
+	$scope.savingsDetailsAccountNo = $localStorage.SavingsAccountNo;
+	$scope.savingsDetailsBalance = $localStorage.SavingsAccountBalance;
+	$scope.cardDetailsCardNo = $localStorage.PaymentCardNo;
+	$scope.cardDetailsCardBalance = $localStorage.PaymentCardBalance;	
+	$scope.currentDate = new Date();
+	$scope.makePayment = function () {
+		if($scope.payableAmount == null || $scope.payableAmount === "") 
+			{				
+				alert("Please Enter a Valid Amount to Pay. ");
+			}	
+		else if($scope.payableAmount < 0)
+			{
+				alert("Payable Amount cannot be Negative. Enter a Valid Amount");
+			}
+		else if( $scope.payableAmount > $localStorage.SavingsAccountBalance)
+			{
+				alert("Savings Account Balance is Lesser than Payable Amount");
+			}
+		else 
+			{
+			$localStorage.PaymentDueAmount = $scope.payableAmount;
+			$location.path('/paymentsFinalSummaryOTP');					
+			}			    			   					   
+	  };
+	$scope.cancelPayment = function () {						    
+		    $location.path('/home');						  
+		  };
+	} ]);
+
+digitalbankingControllers.controller('PaymentsFinalSummaryOTPController', [
+'$scope',
+'CardPaymentService','$localStorage','$location',
+function($scope, CardPaymentService,$localStorage,$location) {	
+	$scope.savingsDetailsAccountNo = $localStorage.SavingsAccountNo;
+	$scope.savingsDetailsBalance = $localStorage.SavingsAccountBalance;
+	$scope.cardDetailsCardNo = $localStorage.PaymentCardNo;
+	$scope.cardDetailsCardBalance = $localStorage.PaymentCardBalance;	
+	$scope.transferredAmount = $localStorage.PaymentDueAmount;
+	$scope.currentDate = new Date();
+	$localStorage.currentDate =$scope.currentDate; 
+	$scope.makePayment = function () {
+		$localStorage.OTP = $scope.OTPdata;
+		alert("OTP Data is"+$scope.OTPdata);
+		CardPaymentService.payCreditCard().success(
+							function(data, status, headers,
+									config) {
+								if (data != null) {
+									//alert("All Success!"+data);
+									$localStorage.TransactionID = data;
+									$localStorage.TransactionStatus = "Success";									
+									$location.path('/paymentsConfirmation');
+								}
+							}).error(function() {
+								console.log("Failed somewhere...");
+							});
+		/*$localStorage.TransactionID = "ACGD437624372DG";
+		$localStorage.TransactionStatus = "Success";
+		alert("Data to be Posted to Server.");
+		$location.path('/paymentsConfirmation');*/
+	}	 
+	$scope.cancelPayment = function () {						    
+		    $location.path('/home');						  
+		  };
+	} ]);
+
+digitalbankingControllers.controller('PaymentsConfirmation', [
+'$scope',
+'CardService','$localStorage','$location',
+function($scope, CardService,$localStorage,$location) {	
+	$scope.transactionStatus = $localStorage.TransactionStatus;
+	$scope.transactionID = $localStorage.TransactionID;
+	$scope.makePayment = function () {		
+		$location.path('/home');			
+	  };
+
+	} ]);
+
 
 digitalbankingControllers.controller('AccountsTransactionListController', [ '$scope',
 	function($scope) {
@@ -440,13 +660,13 @@ function($scope, CardService) {
 	$scope.cardGridOptions = {
 		data : 'cardSummary',
 		columnDefs : [ {
-			field : 'cardNumber',
+			field : 'cardNo',
 			displayName : 'Card Number'
 		}, {
 			field : 'cardType',
 			displayName : 'Type'
 		}, {
-			field : 'balance',
+			field : 'creditLimit',
 			displayName : 'Balance'
 		} ]
 	};

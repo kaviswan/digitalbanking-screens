@@ -4,7 +4,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="#/home">Home</a></li>
+        <li class=""><a href="#/home">Home</a></li>
         <li class="dropdown" ng-class="{open:hover1}">
           <a href="#" class="dropdown-toggle" ng-mouseenter="hover1=true" ng-mouseleave="hover1=false" data-toggle="dropdown">Banking<b class="caret"></b></a>
           <ul class="dropdown-menu"  >
@@ -21,9 +21,9 @@
           </ul>
         </li>
         <li class="dropdown" ng-class="{open:hover3}">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-mouseenter="hover3=true" ng-mouseleave="hover3=true">Loans <b class="caret"></b></a>
+          <a href="#/accountSummary" class="dropdown-toggle" data-toggle="dropdown" ng-mouseenter="hover3=true" ng-mouseleave="hover3=true">Loans <b class="caret"></b></a>
           <ul class="dropdown-menu"  >
-            <li><a href="#">Apply for a Loan</a></li>
+            <li><a href="#/accountSummary">Apply for a Loan</a></li>
           </ul>
         </li>
         <li class="dropdown" ng-class="{open:hover4}">
@@ -33,11 +33,11 @@
             <li><a href="#">Invest Now</a></li>
           </ul>
         </li>
-        <li class="dropdown" ng-class="{open:hover5}">
+        <li class="active" ng-class="{open:hover5}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-mouseenter="hover5=true" ng-mouseleave="hover5=true">Transfer <b class="caret"></b></a>
           <ul class="dropdown-menu"  >
             <li><a href="#">Manage Payee</a></li>
-            <li><a href="#">Transfer Funds</a></li>
+            <li><a href="#/paymentsAccountsSummary">Transfer Funds</a></li>
           </ul>
         </li>
         <li class="dropdown" ng-class="{open:hover6}">

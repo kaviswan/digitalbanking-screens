@@ -81,6 +81,34 @@ digitalbankingServices.factory('CardService',['$http','$location','$rootScope', 
     };
 
     return service;
+	
+	
+}]);
+
+
+digitalbankingServices.factory('CardPaymentService',['$http','$location','$rootScope', '$localStorage', function($http, $location, $rootScope, $localStorage) {
+
+    var service = {};    
+    service.payCreditCard = function() {  
+    	var parameter = JSON.stringify({
+    		cardDetailsCardNo:$localStorage.PaymentCardNo,
+    		cardDetailsCardBalance:$localStorage.PaymentCardBalance,
+    		savingsDetailsAccountNo:$localStorage.SavingsAccountNo,
+    		savingsDetailsBalance:$localStorage.SavingsAccountBalance,
+    		transferredAmount:$localStorage.PaymentDueAmount,
+    		currentDate:$localStorage.currentDate,
+    		OTP:$localStorage.OTP,
+    		customerId:$localStorage.customerId
+    		});
+    	
+    	//var parameter = {cardNo:3624978443870993};
+    	console.log("Before Posting...");
+    	 return $http.put($localStorage.applicationUrls.paymentsSummaryUrl, parameter);
+    };
+    console.log("Before Posting 2...");
+    return service;
+	
+	
 }]);
 
 digitalbankingServices.factory('InvestmentService',['$http','$location','$rootScope', '$localStorage', function($http, $location, $rootScope, $localStorage) {

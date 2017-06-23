@@ -1,11 +1,13 @@
 {
 	"authResult": "success",
 	"applicationConfigurationURLs": {
-		"accSummaryUrl": "/accountservices-1.0/accservices/556677/accounts",
+		"accSummaryUrl": "/accservices/556677/accounts",
 		"loanSummaryUrl": "/loanservices/556677/loans",
 		"transactionDetailsUrl": "/txnservices/1000/accounts",
 		"payeeListUrl": "/accservices/556677/payeeList",
-		"cardSummaryUrl": "/accservices/556677/cards",
-		"investmentSummaryUrl": "/accservices/556677/investments"
+		"cardSummaryUrl": "http://mydigitalbanking.com:8100/cardservices/556677/cards",
+		"investmentSummaryUrl": "/accservices/556677/investments",
+		"paymentsSummaryUrl": "http://mydigitalbanking.com:8120/CreditCardPaymentservices/payCreditCardBill"
 	}
 }
+ 

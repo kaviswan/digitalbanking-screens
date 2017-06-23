@@ -2,7 +2,11 @@
 <div class="row-fluid screen-title">Accounts Summary</div>
 <div class="row-fluid">
         <div class="col-lg-12">
-                <div class="gridStyle" ng-grid="accGridOptions">
+                <div class="gridStyle" ng-grid="accGridOptions">  
+                <table>
+                <tr ng-repeat="x in mySelections"><td>{{x.accountNo}}</td></tr>
+                </table>                
+                           
         </div>
         </div>
 </div>
