@@ -5,9 +5,9 @@
 		"loanSummaryUrl": "/loanservices/556677/loans",
 		"transactionDetailsUrl": "/txnservices/1000/accounts",
 		"payeeListUrl": "/accservices/556677/payeeList",
-		"cardSummaryUrl": "http://mydigitalbanking.com:8100/cardservices/556677/cards",
+		"cardSummaryUrl": "/cardservices/556677/cards",
 		"investmentSummaryUrl": "/accservices/556677/investments",
-		"paymentsSummaryUrl": "http://mydigitalbanking.com:8120/CreditCardPaymentservices/payCreditCardBill"
+		"paymentsSummaryUrl": "/txfrservices/payCreditCardBill"
 	}
 }
  
