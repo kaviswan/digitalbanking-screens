@@ -498,7 +498,7 @@ function($scope, CardPaymentService,$localStorage,$location) {
 	$localStorage.currentDate =$scope.currentDate; 
 	$scope.makePayment = function () {
 		$localStorage.OTP = $scope.OTPdata;
-		alert("OTP Data is"+$scope.OTPdata);
+		//alert("OTP Data is"+$scope.OTPdata);
 		CardPaymentService.payCreditCard().success(
 							function(data, status, headers,
 									config) {
