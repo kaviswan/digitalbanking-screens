@@ -10,8 +10,9 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<jetty-maven-plugin.version>8.1.16</jetty-maven-plugin.version>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -22,7 +23,7 @@
 	</dependencies>
 	<build>
 		<finalName>digitalbanking-screens</finalName>
-				<plugins>
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -32,6 +33,38 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty-maven-plugin.version}</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<httpConnector>
+						<port>8080</port>
+					</httpConnector>
+					<webApp>
+						<contextPath>/test</contextPath>
+					</webApp>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.jetty.http2</groupId>
+						<artifactId>http2-server</artifactId>
+						<version>${jetty-maven-plugin.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.jetty</groupId>
+						<artifactId>jetty-alpn-server</artifactId>
+						<version>${jetty-maven-plugin.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+		<site>
+			<id>digibank.com</id>
+			<url>file:///digitalbanking-screens</url>
+		</site>
+	</distributionManagement>
 </project> 

@@ -508,8 +508,11 @@ function($scope, CardPaymentService,$localStorage,$location) {
 									$localStorage.TransactionStatus = "Success";									
 									$location.path('/paymentsConfirmation');
 								}
-							}).error(function() {
+							}).error(function(data) {								
+								$localStorage.TransactionID = data;
+								$localStorage.TransactionStatus = "Transaction Failed.";	
 								console.log("Failed somewhere...");
+								$location.path('/paymentsConfirmation');
 							});
 		/*$localStorage.TransactionID = "ACGD437624372DG";
 		$localStorage.TransactionStatus = "Success";
